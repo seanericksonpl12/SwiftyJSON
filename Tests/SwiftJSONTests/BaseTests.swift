@@ -33,11 +33,18 @@ class BaseTests: XCTestCase {
 
 //        let file = "./Tests/Tes/Tests.json"
 //        self.testData = try? Data(contentsOf: URL(fileURLWithPath: file))
-        if let file = Bundle(for: BaseTests.self).path(forResource: "Tests", ofType: "json") {
-            self.testData = try? Data(contentsOf: URL(fileURLWithPath: file))
-        } else {
-            XCTFail("Can't find the test JSON file")
+//        if let file = Bundle(for: BaseTests.self).path(forResource: "Tests", ofType: "json") {
+//            self.testData = try? Data(contentsOf: URL(fileURLWithPath: file))
+//        } else {
+//            XCTFail("Can't find the test JSON file")
+//        }
+        let packageURL = URL(fileURLWithPath: #file).deletingLastPathComponent().deletingLastPathComponent()
+        let fileURL = packageURL.appendingPathComponent("Tes/Tests.json")
+        guard let data = try? Data(contentsOf: fileURL) else {
+            XCTFail()
+            return
         }
+        self.testData = data
     }
 
     override func tearDown() {
