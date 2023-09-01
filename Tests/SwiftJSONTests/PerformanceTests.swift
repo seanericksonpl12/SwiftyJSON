@@ -30,11 +30,18 @@ class PerformanceTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        if let file = Bundle(for: PerformanceTests.self).path(forResource: "Tests", ofType: "json") {
-            self.testData = try? Data(contentsOf: URL(fileURLWithPath: file))
-        } else {
-            XCTFail("Can't find the test JSON file")
+//        if let file = Bundle(for: PerformanceTests.self).path(forResource: "Tests", ofType: "json") {
+//            self.testData = try? Data(contentsOf: URL(fileURLWithPath: file))
+//        } else {
+//            XCTFail("Can't find the test JSON file")
+//        }
+        let packageURL = URL(fileURLWithPath: #file).deletingLastPathComponent().deletingLastPathComponent()
+        let fileURL = packageURL.appendingPathComponent("Tes/Tests.json")
+        guard let data = try? Data(contentsOf: fileURL) else {
+            XCTFail()
+            return
         }
+        self.testData = data
     }
 
     override func tearDown() {
